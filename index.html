@@ -127,7 +127,9 @@
             .gallery-item { min-height: 300px; } .process { padding: 64px 24px; } .process-steps { grid-template-columns: repeat(2, 1fr); }
             .testimonials { padding: 64px 24px; } .testimonials-grid { grid-template-columns: 1fr; } .contact-form-container { padding: 64px 24px; }
             #cosmetica-rino, #cosmetica-labios, #dental, #botox { grid-template-columns: 1fr !important; }
-            #cosmetica-rino img, #cosmetica-labios img, #dental img { object-fit: contain !important; height: auto !important; max-height: 360px; background: #152232; padding: 12px; }
+            #cosmetica-rino img, #cosmetica-labios img, #dental img { height: auto !important; max-height: none !important; object-fit: contain !important; padding: 0 !important; background: transparent !important; }
+            #botox .ow-slider { height: 420px !important; }
+            #botox .ow-slider img { object-position: center 20% !important; }
             .contact-info-bar { grid-template-columns: repeat(2, 1fr); } .form-row { grid-template-columns: 1fr; }
             footer { padding: 24px; flex-direction: column; gap: 8px; }
         }
