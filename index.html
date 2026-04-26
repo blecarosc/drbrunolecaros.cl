@@ -102,6 +102,7 @@
         .radio-options label { color: var(--white); font-size: 14px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
         .radio-options input { accent-color: var(--white); margin: 0; flex-shrink: 0; width: 16px; height: 16px; }
         .contact-form .privacy { color: rgba(255,255,255,0.8); font-size: 12px; display: flex; align-items: flex-start; gap: 8px; cursor: pointer; }
+        .contact-form .privacy input { margin: 2px 0 0 0; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--white); }
         .contact-form .privacy a { color: var(--white); text-decoration: underline; }
         .contact-form button { width: 100%; padding: 16px; background: var(--white); color: var(--accent-dark); border: none; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; margin-top: 8px; }
         .contact-form button:hover { background: var(--gray-light); }
@@ -492,7 +493,7 @@
                 <div class="radio-group" style="margin-top: 8px;"><p>¿Estás interesado en...?*</p><div class="radio-options"><label><input type="radio" name="tratamiento" value="dental"> Evaluación dental</label><label><input type="radio" name="tratamiento" value="armonizacion"> Armonización facial</label></div></div>
                 <div class="radio-group" style="margin-top: 8px;"><p>¿Cuándo te llamamos?*</p><div class="radio-options"><label><input type="radio" name="horario" value="manana"> Mañana</label><label><input type="radio" name="horario" value="mediodia"> Mediodía</label><label><input type="radio" name="horario" value="tarde"> Tarde</label></div></div>
                 <textarea placeholder="¿Tienes alguna duda?" style="margin-top: 8px;"></textarea>
-                <label class="privacy" style="margin-top: 8px;"><input type="checkbox" required style="accent-color: var(--white); margin-top: 2px;"> He leído y acepto la <a href="#">política de privacidad</a></label>
+                <label class="privacy"><input type="checkbox" required> He leído y acepto la <a href="#">política de privacidad</a></label>
                 <button type="submit">Reservar Cita</button>
             </form>
         </div>
