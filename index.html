@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Bruno Lecaros</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0D1B2A; --bg-light: #1B2838; --bg-subtle: #152232;
+            --accent: #3D8B9E; --accent-light: #4FA0B3; --accent-dark: #2D7588;
+            --gold: #C9A96E; --white: #FFFFFF; --gray: #8A9BB0; --gray-light: #A8B8C8;
+            --light-line: rgba(61, 139, 158, 0.15);
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        html { overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--white); line-height: 1.6; overflow-x: hidden; margin: 0; }
+        nav { position: fixed; top: 0; width: 100%; padding: 12px 48px; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(13, 27, 42, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--light-line); }
+        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .nav-logo-icon { width: 38px; height: 38px; border: 2px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--accent); letter-spacing: 1px; font-family: 'Inter', sans-serif; }
+        .nav-logo-text { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 3px; color: var(--accent); font-family: 'Inter', sans-serif; }
+        .nav-logo-sub { font-size: 9px; font-weight: 400; text-transform: uppercase; letter-spacing: 2px; color: var(--gray); font-family: 'Inter', sans-serif; margin-top: 2px; }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--gray); font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 2px; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 48px; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; right: 0; top: 0; width: 45%; height: 100%; background: url('assets/bruno/578276822_10240233657916162_791126667065945968_n.jpg') center/cover; opacity: 0.15; filter: blur(2px); mask-image: linear-gradient(to left, rgba(0,0,0,0.5), transparent); -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.5), transparent); }
+        .hero h1 { font-size: clamp(48px, 8vw, 90px); font-weight: 900; text-transform: uppercase; line-height: 0.95; letter-spacing: -2px; max-width: 800px; position: relative; z-index: 2; }
+        .hero h1 span { color: var(--accent); }
+        .hero-subtitle { font-size: 17px; font-weight: 300; max-width: 500px; margin-top: 24px; color: var(--gray); line-height: 1.8; position: relative; z-index: 2; }
+        .hero-cta { display: none; }
+        .wa-float { position: fixed; bottom: 24px; right: 24px; z-index: 999; width: 48px; height: 48px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 2px 12px rgba(37,211,102,0.4); transition: all 0.3s; }
+        .wa-float:hover { transform: scale(1.1); box-shadow: 0 4px 16px rgba(37,211,102,0.5); }
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); background: var(--accent); }
+        .stat { text-align: center; padding: 40px 20px; border-right: 1px solid var(--accent-light); }
+        .stat:last-child { border-right: none; }
+        .stat-number { font-size: 36px; font-weight: 800; color: var(--white); }
+        .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+        .about { display: grid; grid-template-columns: 1fr 1fr; min-height: 80vh; }
+        .about-image { background: url('assets/bruno/IMG_20210718_235757_Original.jpg') center 15%/cover; background-size: 90%; min-height: 500px; position: relative; }
+        .about-image::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, transparent 60%, var(--bg)); }
+        .about-content { padding: 80px 64px; display: flex; flex-direction: column; justify-content: center; }
+        .section-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 4px; color: var(--accent); margin-bottom: 24px; }
+        .about-content h2 { font-size: 42px; font-weight: 800; line-height: 1.1; margin-bottom: 24px; }
+        .about-content p { font-size: 16px; color: var(--gray); line-height: 1.8; max-width: 480px; }
+        .about-signature { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--light-line); }
+        .about-signature .name { font-size: 16px; font-weight: 700; color: var(--accent); }
+        .about-signature .role { font-size: 13px; color: var(--gray); }
+        .services { padding: 120px 48px; background: var(--bg-subtle); }
+        .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 64px; }
+        .services-header h2 { font-size: 48px; font-weight: 800; text-transform: uppercase; }
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+        .service-card { background: var(--bg); padding: 48px 32px; transition: all 0.3s; cursor: default; }
+        .service-card:hover { background: var(--accent); color: var(--white); }
+        .service-card:hover .service-number { color: rgba(255,255,255,0.5); }
+        .service-card:hover p { color: rgba(255,255,255,0.8); }
+        .service-number { font-size: 13px; font-weight: 300; color: var(--accent); display: block; margin-bottom: 24px; transition: color 0.3s; }
+        .service-card h3 { font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+        .service-card p { font-size: 14px; color: var(--gray); line-height: 1.6; transition: color 0.3s; }
+        .gallery { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; height: 100vh; gap: 2px; }
+        .gallery-item { background-size: cover; background-position: center; position: relative; }
+        .gallery-item::after { content: ''; position: absolute; inset: 0; background: rgba(13, 27, 42, 0.05); transition: opacity 0.3s; }
+        .flip-card { position: relative !important; }
+        .flip-card .flip-front { position: relative; z-index: 1; transition: opacity 0.5s ease; }
+        .flip-card .flip-back { position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; opacity: 0 !important; transition: opacity 0.5s ease; background: #0D1B2A; z-index: 2 !important; }
+        .flip-card:hover .flip-front { opacity: 0 !important; }
+        .flip-card:hover .flip-back { opacity: 1 !important; }
+        .flip-card.show-labios .flip-front { opacity: 0 !important; }
+        .flip-card.show-labios .flip-back { opacity: 1 !important; }
+        .gallery-item:hover::after { opacity: 0; }
+        .process { padding: 120px 48px; }
+        .process-header { text-align: center; margin-bottom: 80px; }
+        .process-header h2 { font-size: 48px; font-weight: 800; text-transform: uppercase; }
+        .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; max-width: 1000px; margin: 0 auto; }
+        .process-step { text-align: center; }
+        .step-number { font-size: 64px; font-weight: 800; color: var(--accent); opacity: 0.2; margin-bottom: 16px; }
+        .process-step h4 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+        .process-step p { font-size: 14px; color: var(--gray); line-height: 1.6; }
+        .testimonials { padding: 100px 48px; background: var(--bg-light); }
+        .testimonials h2 { font-size: 48px; font-weight: 800; text-transform: uppercase; margin-bottom: 64px; text-align: center; }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
+        .testimonial { background: var(--bg); padding: 40px; border: 1px solid var(--light-line); }
+        .testimonial-stars { color: var(--gold); font-size: 14px; letter-spacing: 4px; margin-bottom: 20px; }
+        .testimonial p { font-size: 15px; color: var(--gray); line-height: 1.8; font-style: italic; margin-bottom: 24px; }
+        .testimonial-author { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .testimonial-location { font-size: 12px; color: var(--gray); }
+        .contact-section { padding: 0; }
+        .contact-form-container { max-width: 700px; margin: 0 auto; padding: 80px 48px; background: var(--accent); }
+        .contact-form-container h2 { font-size: 36px; font-weight: 900; color: var(--white); text-align: center; margin-bottom: 8px; text-transform: uppercase; letter-spacing: -1px; }
+        .contact-form-container > p { text-align: center; color: rgba(255,255,255,0.85); font-size: 15px; margin-bottom: 40px; line-height: 1.6; }
+        .contact-form { display: flex; flex-direction: column; gap: 16px; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 16px 20px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: var(--white); font-family: 'Inter', sans-serif; font-size: 14px; outline: none; }
+        .contact-form input::placeholder, .contact-form textarea::placeholder { color: rgba(255,255,255,0.5); }
+        .contact-form input:focus, .contact-form textarea:focus { border-color: var(--white); }
+        .contact-form textarea { height: 100px; resize: none; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .radio-group p { color: var(--white); font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+        .radio-options { display: flex; flex-wrap: wrap; gap: 16px; }
+        .radio-options label { color: var(--white); font-size: 14px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+        .radio-options input { accent-color: var(--white); }
+        .contact-form .privacy { color: rgba(255,255,255,0.8); font-size: 12px; display: flex; align-items: flex-start; gap: 8px; cursor: pointer; }
+        .contact-form .privacy a { color: var(--white); text-decoration: underline; }
+        .contact-form button { width: 100%; padding: 16px; background: var(--white); color: var(--accent-dark); border: none; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; margin-top: 8px; }
+        .contact-form button:hover { background: var(--gray-light); }
+        .contact-info-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.05); }
+        .contact-info-item { background: var(--bg); padding: 40px 24px; text-align: center; }
+        .contact-info-item .icon { font-size: 24px; margin-bottom: 8px; }
+        .contact-info-item .label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 4px; }
+        .contact-info-item .value { font-size: 14px; color: var(--gray); }
+        footer { padding: 16px 48px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--light-line); }
+        footer .logo { font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: var(--accent); }
+        footer p { font-size: 13px; color: var(--gray); }
+        @media (max-width: 768px) {
+            nav { padding: 16px 24px; } .nav-links { display: none; } .hero { padding: 0 24px; } .hero h1 { font-size: 42px; }
+            .hero::before { display: none; }
+            .stats { grid-template-columns: repeat(2, 1fr); } .stat:nth-child(2n) { border-right: none; } .about { grid-template-columns: 1fr; } .about-content { padding: 48px 24px; }
+            .services { padding: 64px 24px; } .services-grid { grid-template-columns: 1fr; } .gallery { grid-template-columns: 1fr; height: auto; }
+            .gallery-item { min-height: 300px; } .process { padding: 64px 24px; } .process-steps { grid-template-columns: repeat(2, 1fr); }
+            .testimonials { padding: 64px 24px; } .testimonials-grid { grid-template-columns: 1fr; } .contact-form-container { padding: 64px 24px; }
+            .contact-info-bar { grid-template-columns: repeat(2, 1fr); } .form-row { grid-template-columns: 1fr; }
+            footer { padding: 24px; flex-direction: column; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-logo">
+            <img src="assets/before-after/logo 2webp.PNG" style="height: 50px; filter: invert(1) sepia(1) saturate(3) hue-rotate(160deg) brightness(0.7);">
+            <div>
+                <div class="nav-logo-text">Dr. Bruno Lecaros</div>
+                <div class="nav-logo-sub">Odontología & Armonización</div>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#about">Sobre Mí</a></li>
+            <li><a href="#services">Servicios</a></li>
+            <li><a href="#gallery">Galería</a></li>
+            <li><a href="#resultados">Resultados</a></li>
+            <li><a href="#contact">Agenda</a></li>
+        </ul>
+    </nav>
+    <section class="hero">
+        <h1>Tu mejor <span>versión</span> comienza aquí</h1>
+        <p class="hero-subtitle">Dr. Bruno Lecaros · Odontología General y Armonización Orofacial. Tratamientos dentales y estéticos con tecnología de última generación en Santiago.</p>
+        <a href="https://wa.me/56934464614?text=Hola%20Dr.%20Lecaros%2C%20me%20gustaría%20agendar%20una%20hora" target="_blank" class="hero-cta">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.616l4.529-1.459A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.347 0-4.518-.804-6.237-2.152l-.436-.348-2.684.865.882-2.631-.379-.453A9.963 9.963 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+            WhatsApp
+        </a>
+    </section>
+    <section class="stats">
+        <div class="stat"><div class="stat-number">+1500</div><div class="stat-label">Pacientes</div></div>
+        <div class="stat"><div class="stat-number">98%</div><div class="stat-label">Satisfacción</div></div>
+        <div class="stat"><div class="stat-number">+5</div><div class="stat-label">Años Exp.</div></div>
+        <div class="stat"><div class="stat-number">5.0</div><div class="stat-label">Google</div></div>
+    </section>
+    <section class="about" id="about">
+        <div class="about-image"></div>
+        <div class="about-content">
+            <span class="section-label">Sobre Mí</span>
+            <h2>Odontología moderna con visión estética</h2>
+            <p>Soy el Dr. Bruno Lecaros, cirujano dentista especializado en odontología general y armonización orofacial. Con experiencia internacional, combino una visión global de la odontología moderna con un trato cercano y personalizado.</p>
+            <p style="margin-top: 16px;">Mi enfoque integra la salud dental con la estética facial, desde tratamientos dentales completos hasta toxina botulínica y ácido hialurónico, para que logres tu mejor versión.</p>
+            <div class="about-signature">
+                <div class="name">Dr. Bruno Lecaros</div>
+                <div class="role">Cirujano Dentista · Armonización Orofacial</div>
+            </div>
+        </div>
+    </section>
+    <section class="services" id="services">
+        <div class="services-header"><div><span class="section-label">Lo que hacemos</span><h2>Servicios</h2></div></div>
+        <div class="services-grid">
+            <div class="service-card"><span class="service-number">01</span><h3>Odontología General</h3><p>Diagnóstico, limpiezas, restauraciones y cuidado integral de tu salud dental.</p></div>
+            <div class="service-card"><span class="service-number">02</span><h3>Extracciones</h3><p>Extracciones simples y complejas con técnica mínimamente invasiva.</p></div>
+            <div class="service-card"><span class="service-number">03</span><h3>Armonización Dental</h3><p>Blanqueamiento, carillas y diseño de sonrisa para una sonrisa perfecta.</p></div>
+            <div class="service-card"><span class="service-number">04</span><h3>Toxina Botulínica</h3><p>Tratamiento de líneas de expresión y arrugas para un rostro rejuvenecido y natural.</p></div>
+            <div class="service-card"><span class="service-number">05</span><h3>Filler / Relleno</h3><p>Ácido hialurónico para volumen en labios, pómulos y perfilado facial.</p></div>
+            <div class="service-card"><span class="service-number">06</span><h3>PPRM</h3><p>Plasma rico en plaquetas para rejuvenecimiento y regeneración de tejidos.</p></div>
+        </div>
+    </section>
+    <section id="resultados" style="padding: 24px 48px 120px; background: var(--bg-subtle);">
+        <div style="text-align: center; margin-bottom: 48px;">
+            <span class="section-label" style="display: block; text-align: center;">Resultados</span>
+            <h2 style="font-size: 48px; font-weight: 800; text-transform: uppercase;">Antes & Después</h2>
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 4px; margin-bottom: 48px;">
+            <button onclick="showTab('cosmetica')" id="tab-cosmetica" style="padding: 12px 32px; background: var(--accent); color: var(--white); border: none; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: all 0.3s;">Armonización</button>
+            <button onclick="showTab('dental')" id="tab-dental" style="padding: 12px 32px; background: var(--bg); color: var(--gray); border: 1px solid var(--light-line); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: all 0.3s;">Dental</button>
+            <button onclick="showTab('botox')" id="tab-botox" style="padding: 12px 32px; background: var(--bg); color: var(--gray); border: 1px solid var(--light-line); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: all 0.3s;">Toxina Botulínica</button>
+        </div>
+
+        <div id="cosmetica" class="results-tab">
+
+            <div style="display: flex; justify-content: center; gap: 16px; margin-bottom: 32px;">
+                <span onclick="showCosmeticaSub('rino')" id="sub-rino" style="font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; cursor: pointer; transition: color 0.3s;">Rinomodelación</span>
+                <span style="font-size: 12px; color: var(--gray);">|</span>
+                <span onclick="showCosmeticaSub('labios')" id="sub-labios" style="font-size: 12px; color: var(--gray); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; cursor: pointer; transition: color 0.3s;">Labios</span>
+            </div>
+
+            <div id="cosmetica-rino" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto;">
+                <div style="background: var(--bg); border: 1px solid var(--light-line); overflow: hidden;">
+                    <img src="assets/before-after/rino1.png" style="width: 100%; height: 280px; display: block; object-fit: cover; object-position: center;">
+                    <div style="padding: 20px; text-align: center;"><p style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Rinomodelación</p><p style="font-size: 12px; color: var(--gray); margin-top: 4px;">Corrección de perfil</p></div>
+                </div>
+                <div style="background: var(--bg); border: 1px solid var(--light-line); overflow: hidden;">
+                    <img src="assets/before-after/rino2.png" style="width: 100%; height: 280px; display: block; object-fit: cover; object-position: center;">
+                    <div style="padding: 20px; text-align: center;"><p style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Rinomodelación</p><p style="font-size: 12px; color: var(--gray); margin-top: 4px;">Perfilado nasal</p></div>
+                </div>
+                <div style="background: var(--bg); border: 1px solid var(--light-line); overflow: hidden;">
+                    <img src="assets/before-after/rino3.png" style="width: 100%; height: 280px; display: block; object-fit: cover; object-position: center;">
+                    <div style="padding: 20px; text-align: center;"><p style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Rinomodelación</p><p style="font-size: 12px; color: var(--gray); margin-top: 4px;">Ácido hialurónico</p></div>
+                </div>
+            </div>
+
+            <div id="cosmetica-labios" style="display: none; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto;">
+                <div style="background: var(--bg); border: 1px solid var(--light-line); overflow: hidden;">
+                    <img src="assets/before-after/prueba1.png" style="width: 100%; height: 280px; display: block; object-fit: contain; object-position: center; background: #152232;">
+                    <div style="padding: 20px; text-align: center;"><p style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Filler Labios</p><p style="font-size: 12px; color: var(--gray); margin-top: 4px;">Volumen natural</p></div>
+                </div>
+                <div style="background: var(--bg); border: 1px solid var(--light-line); overflow: hidden;">
+                    <img src="assets/before-after/prueba2.png" style="width: 100%; height: 280px; display: block; object-fit: contain; object-position: center; background: #152232;">
+                    <div style="padding: 20px; text-align: center;"><p style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Filler Labios</p><p style="font-size: 12px; color: var(--gray); margin-top: 4px;">Definición y volumen</p></div>
+                </div>
+                <div style="background: var(--bg); border: 1px solid var(--light-line); overflow: hidden;">
+                    <img src="assets/before-after/prueba3.png" style="width: 100%; height: 280px; display: block; object-fit: contain; object-position: center; background: #152232;">
+                    <div style="padding: 20px; text-align: center;"><p style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Filler Labios</p><p style="font-size: 12px; color: var(--gray); margin-top: 4px;">Resultado natural</p></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- BOTOX SLIDERS -->
+        <div id="botox" class="results-tab" style="display: none; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 900px; margin: 0 auto;">
+
+            <article style="background: var(--bg); border: 1px solid var(--light-line); border-radius: 12px; overflow: hidden; padding: 8px;">
+                <div class="ow-slider" data-slider style="position: relative; width: 100%; height: 500px; overflow: hidden; border-radius: 8px; user-select: none; cursor: col-resize; touch-action: none;">
+                    <div data-before style="position: absolute; inset: 0;">
+                        <img src="assets/before-after-anon/3.jpg" style="width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block;" draggable="false">
+                        <span style="position: absolute; top: 8px; left: 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; background: rgba(0,0,0,0.5); color: #fff; border-radius: 4px; padding: 2px 8px;">Antes</span>
+                    </div>
+                    <div data-after style="position: absolute; inset: 0;">
+                        <img src="assets/before-after-anon/4.jpg" style="width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block;" draggable="false">
+                        <span style="position: absolute; top: 8px; right: 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; background: rgba(0,0,0,0.5); color: #fff; border-radius: 4px; padding: 2px 8px;">Después</span>
+                    </div>
+                    <div data-handle style="position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); left: 50%;">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; background: var(--accent); color: #fff; border-radius: 9999px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 7-5 5 5 5"/><path d="m15 7 5 5-5 5"/></svg>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 16px; text-align: center;">
+                    <p style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Toxina Botulínica Facial</p>
+                    <p style="font-size: 12px; color: var(--gray); margin-top: 4px;">Líneas de expresión · Resultado natural</p>
+                </div>
+            </article>
+
+            <article style="background: var(--bg); border: 1px solid var(--light-line); border-radius: 12px; overflow: hidden; padding: 8px;">
+                <div class="ow-slider" data-slider style="position: relative; width: 100%; height: 500px; overflow: hidden; border-radius: 8px; user-select: none; cursor: col-resize; touch-action: none;">
+                    <div data-before style="position: absolute; inset: 0;">
+                        <img src="assets/before-after-anon/2.jpg" style="width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block;" draggable="false">
+                        <span style="position: absolute; top: 8px; left: 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; background: rgba(0,0,0,0.5); color: #fff; border-radius: 4px; padding: 2px 8px;">Antes</span>
+                    </div>
+                    <div data-after style="position: absolute; inset: 0;">
+                        <img src="assets/before-after-anon/1.jpg" style="width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block;" draggable="false">
+                        <span style="position: absolute; top: 8px; right: 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; background: rgba(0,0,0,0.5); color: #fff; border-radius: 4px; padding: 2px 8px;">Después</span>
+                    </div>
+                    <div data-handle style="position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent); left: 50%;">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; background: var(--accent); color: #fff; border-radius: 9999px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 7-5 5 5 5"/><path d="m15 7 5 5-5 5"/></svg>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 16px; text-align: center;">
+                    <p style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Toxina Botulínica Facial</p>
+                    <p style="font-size: 12px; color: var(--gray); margin-top: 4px;">Rejuvenecimiento · Sin cirugía</p>
+                </div>
+            </article>
+
+        </div>
+
+        <div id="dental" class="results-tab" style="display: none; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto;">
+            <div style="background: var(--bg); border: 1px solid var(--light-line); overflow: hidden;">
+                <img src="assets/before-after/dental1.png" style="width: 100%; height: 280px; display: block; object-fit: contain; object-position: center; background: #152232;">
+                <div style="padding: 20px; text-align: center;">
+                    <p style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Blanqueamiento + Carillas</p>
+                    <p style="font-size: 12px; color: var(--gray); margin-top: 4px;">Carillas directas de resina compuesta</p>
+                </div>
+            </div>
+            <div style="background: var(--bg); border: 1px solid var(--light-line); overflow: hidden;">
+                <img src="assets/before-after/dental2.png" style="width: 100%; height: 280px; display: block; object-fit: contain; object-position: center; background: #152232;">
+                <div style="padding: 20px; text-align: center;">
+                    <p style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Blanqueamiento + Restauración</p>
+                    <p style="font-size: 12px; color: var(--gray); margin-top: 4px;">Recuperación de bordes incisales</p>
+                </div>
+            </div>
+            <div style="background: var(--bg); border: 1px solid var(--light-line); overflow: hidden;">
+                <img src="assets/before-after/dental3.jpg" style="width: 100%; height: 280px; display: block; object-fit: contain; object-position: center; background: #152232;">
+                <div style="padding: 20px; text-align: center;">
+                    <p style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Restauración</p>
+                    <p style="font-size: 12px; color: var(--gray); margin-top: 4px;">Resina compuesta directa</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const carouselState = { labios: 0, rino: 0 };
+
+        function slideCarousel(name, dir) {
+            const total = 3;
+            carouselState[name] = (carouselState[name] + dir + total) % total;
+            updateCarousel(name);
+        }
+
+        function goToSlide(name, index) {
+            carouselState[name] = index;
+            updateCarousel(name);
+        }
+
+        function updateCarousel(name) {
+            const carousel = document.getElementById(name + '-carousel');
+            carousel.style.transform = 'translateX(-' + (carouselState[name] * 100) + '%)';
+            const dots = document.querySelectorAll('.' + name + '-dot');
+            dots.forEach((dot, i) => {
+                dot.style.background = i === carouselState[name] ? '#3D8B9E' : '#8A9BB0';
+            });
+        }
+
+        var testimonialIndex = 0;
+        function slideTestimonial(dir) {
+            testimonialIndex = (testimonialIndex + dir + 3) % 3;
+            updateTestimonial();
+        }
+        function goTestimonial(i) {
+            testimonialIndex = i;
+            updateTestimonial();
+        }
+        function updateTestimonial() {
+            document.getElementById('testimonial-track').style.transform = 'translateX(-' + (testimonialIndex * 100) + '%)';
+            var dots = document.getElementById('testimonial-dots').children;
+            for (var i = 0; i < dots.length; i++) {
+                dots[i].style.background = i === testimonialIndex ? '#3D8B9E' : '#8A9BB0';
+            }
+        }
+
+        function showCosmeticaSub(sub) {
+            document.getElementById('cosmetica-rino').style.display = sub === 'rino' ? 'grid' : 'none';
+            document.getElementById('cosmetica-labios').style.display = sub === 'labios' ? 'grid' : 'none';
+            document.getElementById('sub-labios').style.color = sub === 'labios' ? '#3D8B9E' : '#8A9BB0';
+            document.getElementById('sub-labios').style.borderColor = sub === 'labios' ? '#3D8B9E' : 'rgba(61,139,158,0.15)';
+            document.getElementById('sub-rino').style.color = sub === 'rino' ? '#3D8B9E' : '#8A9BB0';
+            document.getElementById('sub-rino').style.borderColor = sub === 'rino' ? '#3D8B9E' : 'rgba(61,139,158,0.15)';
+        }
+
+        function showTab(tab) {
+            document.querySelectorAll('.results-tab').forEach(t => t.style.display = 'none');
+            document.getElementById(tab).style.display = 'grid';
+            ['cosmetica', 'dental', 'botox'].forEach(function(t) {
+                var btn = document.getElementById('tab-' + t);
+                if (btn) {
+                    btn.style.background = t === tab ? '#3D8B9E' : '#0D1B2A';
+                    btn.style.color = t === tab ? '#FFFFFF' : '#8A9BB0';
+                    btn.style.border = t === tab ? 'none' : '1px solid rgba(61,139,158,0.15)';
+                }
+            });
+            if (tab === 'botox') initSliders();
+        }
+
+        function initSliders() {
+            document.querySelectorAll('[data-slider]').forEach(function(slider) {
+                if (slider._init) return;
+                slider._init = true;
+                var before = slider.querySelector('[data-before]');
+                var after = slider.querySelector('[data-after]');
+                var handle = slider.querySelector('[data-handle]');
+                var dragging = false;
+
+                function set(pct) {
+                    pct = Math.max(0, Math.min(100, pct));
+                    before.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+                    after.style.clipPath = 'inset(0 0 0 ' + pct + '%)';
+                    handle.style.left = pct + '%';
+                }
+                set(50);
+
+                function fromEvent(e) {
+                    var rect = slider.getBoundingClientRect();
+                    var x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+                    set((x / rect.width) * 100);
+                }
+
+                slider.addEventListener('pointerdown', function(e) { dragging = true; slider.setPointerCapture && slider.setPointerCapture(e.pointerId); fromEvent(e); });
+                slider.addEventListener('pointermove', function(e) { if (dragging) fromEvent(e); });
+                slider.addEventListener('pointerup', function() { dragging = false; });
+                slider.addEventListener('pointercancel', function() { dragging = false; });
+            });
+        }
+    </script>
+
+    <section class="process">
+        <div class="process-header"><span class="section-label">Proceso</span><h2>Paso a Paso</h2></div>
+        <div class="process-steps">
+            <div class="process-step"><div class="step-number">01</div><h4>Evaluación</h4><p>Diagnóstico completo y plan de tratamiento personalizado.</p></div>
+            <div class="process-step"><div class="step-number">02</div><h4>Planificación</h4><p>Te explicamos opciones, tiempos y costos de forma transparente.</p></div>
+            <div class="process-step"><div class="step-number">03</div><h4>Tratamiento</h4><p>Procedimientos con tecnología moderna y mínimo dolor.</p></div>
+            <div class="process-step"><div class="step-number">04</div><h4>Seguimiento</h4><p>Control post-tratamiento para resultados óptimos.</p></div>
+        </div>
+    </section>
+    <section class="gallery" id="gallery">
+        <div class="gallery-item" style="background-image: url('assets/bruno/foto4.jpg'); filter: brightness(0.9) saturate(0.85);"></div>
+        <div class="gallery-item" style="background-image: url('assets/bruno/fotodental.jpg'); filter: brightness(0.95) saturate(0.85);"></div>
+        <div class="gallery-item" style="background-image: url('assets/bruno/IMG_20210518_121519_Original.jpg'); background-position: center 35%; filter: brightness(1.05) saturate(0.85);"></div>
+        <div class="gallery-item" style="background-image: url('assets/bruno/foto2.jpg'); filter: brightness(1.05) saturate(0.85);"></div>
+    </section>
+
+    <section class="testimonials">
+        <div style="text-align: center; margin-bottom: 48px;">
+            <span class="section-label" style="display: block; text-align: center;">Testimonios</span>
+            <h2 style="margin-bottom: 8px;">Lo Que Dicen Mis Pacientes</h2>
+            <div style="display: inline-flex; align-items: center; gap: 8px; margin-top: 12px;">
+                <img src="https://www.google.com/favicon.ico" style="width: 20px; height: 20px;">
+                <span style="font-size: 14px; color: var(--gold);">★★★★★</span>
+                <span style="font-size: 13px; color: var(--gray);">5.0 en Google</span>
+            </div>
+        </div>
+
+        <div style="position: relative; max-width: 800px; margin: 0 auto; overflow: hidden;">
+            <div id="testimonial-track" style="display: flex; transition: transform 0.5s ease;">
+
+                <div style="min-width: 100%; padding: 0 24px; box-sizing: border-box;">
+                    <div style="background: var(--bg); border: 1px solid var(--light-line); border-radius: 12px; padding: 40px; text-align: center; max-width: 600px; margin: 0 auto;">
+                        <div style="color: var(--gold); font-size: 20px; letter-spacing: 4px; margin-bottom: 20px;">★ ★ ★ ★ ★</div>
+                        <p style="font-size: 16px; color: var(--gray-light); line-height: 1.8; font-style: italic; margin-bottom: 24px;">"El Dr. Lecaros me hizo el tratamiento de filler y quedé increíble. Muy natural y profesional. Totalmente recomendado."</p>
+                        <div style="width: 48px; height: 1px; background: var(--accent); margin: 0 auto 16px;"></div>
+                        <p style="font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Valentina R.</p>
+                        <p style="font-size: 12px; color: var(--gray); margin-top: 4px;">Las Condes, Santiago</p>
+                    </div>
+                </div>
+
+                <div style="min-width: 100%; padding: 0 24px; box-sizing: border-box;">
+                    <div style="background: var(--bg); border: 1px solid var(--light-line); border-radius: 12px; padding: 40px; text-align: center; max-width: 600px; margin: 0 auto;">
+                        <div style="color: var(--gold); font-size: 20px; letter-spacing: 4px; margin-bottom: 20px;">★ ★ ★ ★ ★</div>
+                        <p style="font-size: 16px; color: var(--gray-light); line-height: 1.8; font-style: italic; margin-bottom: 24px;">"Excelente dentista. Me sacó una muela del juicio sin dolor y la recuperación fue super rápida. Muy buena onda además."</p>
+                        <div style="width: 48px; height: 1px; background: var(--accent); margin: 0 auto 16px;"></div>
+                        <p style="font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Sebastián M.</p>
+                        <p style="font-size: 12px; color: var(--gray); margin-top: 4px;">Providencia, Santiago</p>
+                    </div>
+                </div>
+
+                <div style="min-width: 100%; padding: 0 24px; box-sizing: border-box;">
+                    <div style="background: var(--bg); border: 1px solid var(--light-line); border-radius: 12px; padding: 40px; text-align: center; max-width: 600px; margin: 0 auto;">
+                        <div style="color: var(--gold); font-size: 20px; letter-spacing: 4px; margin-bottom: 20px;">★ ★ ★ ★ ★</div>
+                        <p style="font-size: 16px; color: var(--gray-light); line-height: 1.8; font-style: italic; margin-bottom: 24px;">"Llevé a mi hijo y salió feliz. El Dr. Bruno tiene mucha paciencia con los niños. Ya tenemos hora para el próximo control."</p>
+                        <div style="width: 48px; height: 1px; background: var(--accent); margin: 0 auto 16px;"></div>
+                        <p style="font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Camila P.</p>
+                        <p style="font-size: 12px; color: var(--gray); margin-top: 4px;">Ñuñoa, Santiago</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <button onclick="slideTestimonial(-1)" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; background: var(--accent); color: #fff; border: none; border-radius: 50%; font-size: 18px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">‹</button>
+            <button onclick="slideTestimonial(1)" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; background: var(--accent); color: #fff; border: none; border-radius: 50%; font-size: 18px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">›</button>
+        </div>
+
+        <div id="testimonial-dots" style="display: flex; justify-content: center; gap: 8px; margin-top: 24px;">
+            <span onclick="goTestimonial(0)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent); cursor: pointer;"></span>
+            <span onclick="goTestimonial(1)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--gray); cursor: pointer;"></span>
+            <span onclick="goTestimonial(2)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--gray); cursor: pointer;"></span>
+        </div>
+    </section>
+    <section class="contact-section" id="contact">
+        <div class="contact-form-container">
+            <h2>Agenda tu evaluación sin costo</h2>
+            <p>Déjanos tus datos y el tratamiento en el que estás interesado/a, y el Dr. Lecaros se pondrá en contacto contigo.</p>
+            <form class="contact-form">
+                <input type="text" placeholder="Tu nombre*" required>
+                <div class="form-row"><input type="email" placeholder="Correo electrónico*" required><input type="tel" placeholder="Tu teléfono*" required></div>
+                <div class="radio-group" style="margin-top: 8px;"><p>¿Estás interesado en...?*</p><div class="radio-options"><label><input type="radio" name="tratamiento" value="dental"> Evaluación dental</label><label><input type="radio" name="tratamiento" value="armonizacion"> Armonización facial</label></div></div>
+                <div class="radio-group" style="margin-top: 8px;"><p>¿Cuándo te llamamos?*</p><div class="radio-options"><label><input type="radio" name="horario" value="manana"> Mañana</label><label><input type="radio" name="horario" value="mediodia"> Mediodía</label><label><input type="radio" name="horario" value="tarde"> Tarde</label></div></div>
+                <textarea placeholder="¿Tienes alguna duda?" style="margin-top: 8px;"></textarea>
+                <label class="privacy" style="margin-top: 8px;"><input type="checkbox" required style="accent-color: var(--white); margin-top: 2px;"> He leído y acepto la <a href="#">política de privacidad</a></label>
+                <button type="submit">Reservar Cita</button>
+            </form>
+        </div>
+        <div class="contact-info-bar">
+            <div class="contact-info-item"><div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3D8B9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="label">Ubicación</div><div class="value">Santiago, RM</div></div>
+            <div class="contact-info-item"><div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3D8B9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div class="label">Teléfono</div><div class="value"><a href="tel:+56934464614" style="color: inherit; text-decoration: none;">+56 9 3446 4614</a></div></div>
+            <div class="contact-info-item"><div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3D8B9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div class="label">Email</div><div class="value">contacto@drbrunolecaros.cl</div></div>
+            <div class="contact-info-item"><div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3D8B9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="label">Horario</div><div class="value">Lun-Vie: 9:00 - 18:00</div></div>
+        </div>
+    </section>
+    <footer>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="assets/before-after/logo 2webp.PNG" style="height: 40px; filter: invert(1) sepia(1) saturate(3) hue-rotate(160deg) brightness(0.7);">
+            <span class="logo">Dr. Bruno Lecaros</span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+            <p>&copy; 2026 Dr. Bruno Lecaros · Odontología & Armonización Orofacial · Santiago, Chile</p>
+            <p style="font-size: 11px; opacity: 0.7;">Sitio por <a href="https://dentalready.cl" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none; font-weight: 600;">DentalReady</a> · 2026</p>
+        </div>
+    </footer>
+    <div style="position: fixed; bottom: 24px; right: 24px; z-index: 999; display: flex; flex-direction: column; gap: 12px;">
+        <a href="https://www.instagram.com/dr.brunolecaros/" target="_blank" style="width: 48px; height: 48px; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 2px 12px rgba(225,48,108,0.4); transition: all 0.3s;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a href="https://wa.me/56934464614?text=Hola%20Dr.%20Lecaros%2C%20me%20gustaría%20agendar%20una%20hora" target="_blank" style="width: 48px; height: 48px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 2px 12px rgba(37,211,102,0.4); transition: all 0.3s;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.616l4.529-1.459A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.347 0-4.518-.804-6.237-2.152l-.436-.348-2.684.865.882-2.631-.379-.453A9.963 9.963 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+        </a>
+    </div>
+</body>
+</html>
